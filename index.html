@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a422e">
+  <meta name="description" content="PREBYTE — skip the campus canteen queue and pick up your food on time.">
+  <title>PREBYTE | Campus Food, Zero Queue</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- Semantic page structure. Interactive controls are enhanced by app.js. -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#menu" class="brand" aria-label="PREBYTE home">PRE<span>BYTE</span><span class="brand-dot">.</span></a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#menu" data-nav="menu" class="active"><span class="nav-icon" aria-hidden="true">🍽️</span> Menu</a>
+        <a href="#orders" data-nav="orders"><span class="nav-icon" aria-hidden="true">🧾</span> My orders</a>
+        <a href="#feedback" data-nav="feedback"><span class="nav-icon" aria-hidden="true">💬</span> Feedback</a>
+      </nav>
+      <button type="button" id="cartShortcut" class="cart-shortcut" aria-label="Go to cart">🛍️ <span>My tray</span> <b id="topCartCount">0</b></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========== PAGE 1: STUDENT MENU ========== -->
+    <section id="menu" class="page" aria-label="Food menu">
+      <div class="hero-wrap">
+        <div class="hero container">
+          <div class="hero-copy">
+            <div class="eyebrow eyebrow-light"><span class="eyebrow-dot"></span> MADE FOR CAMPUS LIFE</div>
+            <h1>Your break.<br><em>Without the queue.</em></h1>
+            <p>Good food shouldn't take up your whole break. Choose your canteen, order your favourites and pick them up on time.</p>
+            <div class="hero-actions">
+              <button type="button" id="browseButton" class="btn btn-lime">Explore the menu <span aria-hidden="true">↗</span></button>
+              <span class="hero-note">Fresh food, less waiting ✨</span>
+            </div>
+            <div class="hero-stats">
+              <span><b>06</b><small>Campus canteens</small></span>
+              <span><b>20</b><small>Food favourites</small></span>
+              <span><b>Easy</b><small>Pickup planning</small></span>
+            </div>
+          </div>
+          <div class="hero-visual" aria-hidden="true">
+            <div class="orb orb-one"></div><div class="orb orb-two"></div>
+            <div class="plate"><span class="plate-food">🍔</span></div>
+            <div class="floating-ticket ticket-top"><span>✦</span> Freshly prepared</div>
+            <div class="floating-ticket ticket-bottom"><span>⏰</span><div><b>Skip the queue</b><small>Order • Pick up • Enjoy</small></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- A small walkthrough makes the menu easier to understand at a glance. -->
+      <div class="steps-strip container" aria-label="How PREBYTE works">
+        <div class="step-card"><span class="step-number">01</span><div><strong>Choose your spot</strong><small>Pick from six campus canteens</small></div></div>
+        <div class="step-card"><span class="step-number">02</span><div><strong>Build your tray</strong><small>Add favourites and adjust quantities</small></div></div>
+        <div class="step-card"><span class="step-number">03</span><div><strong>Plan your pickup</strong><small>Choose a time that works for you</small></div></div>
+      </div>
+
+      <div id="browse" class="catalog container">
+        <div class="section-heading">
+          <div><p class="eyebrow">THE PREBYTE MENU</p><h2>Find something <span>delicious.</span></h2><p>Pick a food court, explore its menu, and add your favourites.</p></div>
+          <span class="tiny-label">🍽️ Made for LPU students</span>
+        </div>
+        <div class="filters-panel">
+          <label class="field filter-canteen">Pickup canteen
+            <select id="canteenFilter">
+              <option value="uni-centre">Uni-Centre</option>
+              <option value="arch-block-6">Architecture Block 6</option>
+                  <option value="blocks-25-26">Blocks 25–26</option>
+                  <option value="joy-court">Joy-Court</option>
+                  <option value="buzzz">Buzzz Food Court</option>
+                  <option value="residential">Residential Cafeteria</option>
+            </select>
+          </label>
+          <label class="field search-field">Search for food
+            <input id="searchInput" type="search" placeholder="Try dosa, coffee, pizza..." autocomplete="off">
+          </label>
+          <div class="category-wrap" aria-label="Food category">
+            <button type="button" class="category-button active" data-category="All" aria-pressed="true">All</button>
+            <button type="button" class="category-button" data-category="Meals" aria-pressed="false">Meals</button>
+            <button type="button" class="category-button" data-category="Snacks" aria-pressed="false">Snacks</button>
+            <button type="button" class="category-button" data-category="Drinks" aria-pressed="false">Drinks</button>
+          </div>
+        </div>
+        <div class="menu-layout">
+          <div class="food-section">
+            <div class="menu-subhead"><h3>Today's picks</h3><span id="foodCount">4 items</span></div>
+            <div class="food-grid" id="foodGrid">
+              <article class="food-card" data-id="p1" data-canteen="uni-centre" data-category="Meals" data-price="149" data-emoji="🍛">
+                <div class="food-art">🍛</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Paneer Tikka Rice Bowl</h3>
+                  <p class="food-description">Smoky paneer, rice &amp; mint chutney</p>
+                  <div class="food-bottom"><strong class="food-price">₹149</strong><button type="button" class="add-button" data-add="p1">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p2" data-canteen="uni-centre" data-category="Meals" data-price="119" data-emoji="🍜">
+                <div class="food-art">🍜</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Veg Hakka Noodles</h3>
+                  <p class="food-description">Wok-tossed noodles &amp; vegetables</p>
+                  <div class="food-bottom"><strong class="food-price">₹119</strong><button type="button" class="add-button" data-add="p2">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p3" data-canteen="uni-centre" data-category="Meals" data-price="79" data-emoji="🥞">
+                <div class="food-art">🥞</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Masala Dosa</h3>
+                  <p class="food-description">Crispy dosa, potato masala &amp; sambar</p>
+                  <div class="food-bottom"><strong class="food-price">₹79</strong><button type="button" class="add-button" data-add="p3">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p4" data-canteen="uni-centre" data-category="Drinks" data-price="69" data-emoji="🥤">
+                <div class="food-art">🥤</div>
+                <div class="food-body">
+                  <span class="food-type">Drinks</span>
+                  <h3 class="food-name">Cold Coffee</h3>
+                  <p class="food-description">Chilled creamy coffee</p>
+                  <div class="food-bottom"><strong class="food-price">₹69</strong><button type="button" class="add-button" data-add="p4">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p5" data-canteen="arch-block-6" data-category="Meals" data-price="159" data-emoji="🌯">
+                <div class="food-art">🌯</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Chicken Wrap</h3>
+                  <p class="food-description">Grilled chicken, salad &amp; house sauce</p>
+                  <div class="food-bottom"><strong class="food-price">₹159</strong><button type="button" class="add-button" data-add="p5">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p6" data-canteen="arch-block-6" data-category="Meals" data-price="109" data-emoji="🥪">
+                <div class="food-art">🥪</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Paneer Grill Sandwich</h3>
+                  <p class="food-description">Toasted bread, paneer &amp; vegetables</p>
+                  <div class="food-bottom"><strong class="food-price">₹109</strong><button type="button" class="add-button" data-add="p6">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p7" data-canteen="arch-block-6" data-category="Snacks" data-price="69" data-emoji="🍟">
+                <div class="food-art">🍟</div>
+                <div class="food-body">
+                  <span class="food-type">Snacks</span>
+                  <h3 class="food-name">French Fries</h3>
+                  <p class="food-description">Crispy salted fries</p>
+                  <div class="food-bottom"><strong class="food-price">₹69</strong><button type="button" class="add-button" data-add="p7">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p8" data-canteen="arch-block-6" data-category="Drinks" data-price="35" data-emoji="☕">
+                <div class="food-art">☕</div>
+                <div class="food-body">
+                  <span class="food-type">Drinks</span>
+                  <h3 class="food-name">Masala Chai</h3>
+                  <p class="food-description">Hot tea with cardamom</p>
+                  <div class="food-bottom"><strong class="food-price">₹35</strong><button type="button" class="add-button" data-add="p8">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p9" data-canteen="blocks-25-26" data-category="Meals" data-price="99" data-emoji="🍲">
+                <div class="food-art">🍲</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Rajma Rice</h3>
+                  <p class="food-description">Punjabi-style rajma with steamed rice</p>
+                  <div class="food-bottom"><strong class="food-price">₹99</strong><button type="button" class="add-button" data-add="p9">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p10" data-canteen="blocks-25-26" data-category="Snacks" data-price="45" data-emoji="🥟">
+                <div class="food-art">🥟</div>
+                <div class="food-body">
+                  <span class="food-type">Snacks</span>
+                  <h3 class="food-name">Samosa Duo</h3>
+                  <p class="food-description">Two golden potato samosas</p>
+                  <div class="food-bottom"><strong class="food-price">₹45</strong><button type="button" class="add-button" data-add="p10">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p11" data-canteen="blocks-25-26" data-category="Drinks" data-price="49" data-emoji="🍋">
+                <div class="food-art">🍋</div>
+                <div class="food-body">
+                  <span class="food-type">Drinks</span>
+                  <h3 class="food-name">Fresh Lime Soda</h3>
+                  <p class="food-description">Citrus, mint &amp; fizz</p>
+                  <div class="food-bottom"><strong class="food-price">₹49</strong><button type="button" class="add-button" data-add="p11">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p12" data-canteen="joy-court" data-category="Meals" data-price="139" data-emoji="🍕">
+                <div class="food-art">🍕</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Veg Cheese Pizza</h3>
+                  <p class="food-description">Personal pizza with vegetables and cheese</p>
+                  <div class="food-bottom"><strong class="food-price">₹139</strong><button type="button" class="add-button" data-add="p12">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p13" data-canteen="joy-court" data-category="Meals" data-price="89" data-emoji="🍔">
+                <div class="food-art">🍔</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Aloo Tikki Burger</h3>
+                  <p class="food-description">Crispy aloo patty, salad &amp; sauce</p>
+                  <div class="food-bottom"><strong class="food-price">₹89</strong><button type="button" class="add-button" data-add="p13">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p14" data-canteen="joy-court" data-category="Drinks" data-price="69" data-emoji="🥤">
+                <div class="food-art">🥤</div>
+                <div class="food-body">
+                  <span class="food-type">Drinks</span>
+                  <h3 class="food-name">Cold Coffee</h3>
+                  <p class="food-description">Chilled creamy coffee</p>
+                  <div class="food-bottom"><strong class="food-price">₹69</strong><button type="button" class="add-button" data-add="p14">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p15" data-canteen="buzzz" data-category="Meals" data-price="129" data-emoji="🍛">
+                <div class="food-art">🍛</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Veg Biryani Bowl</h3>
+                  <p class="food-description">Aromatic biryani with raita</p>
+                  <div class="food-bottom"><strong class="food-price">₹129</strong><button type="button" class="add-button" data-add="p15">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p16" data-canteen="buzzz" data-category="Meals" data-price="89" data-emoji="🌮">
+                <div class="food-art">🌮</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Masala Wrap</h3>
+                  <p class="food-description">Spiced vegetables with fresh salad</p>
+                  <div class="food-bottom"><strong class="food-price">₹89</strong><button type="button" class="add-button" data-add="p16">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p17" data-canteen="buzzz" data-category="Drinks" data-price="59" data-emoji="🧃">
+                <div class="food-art">🧃</div>
+                <div class="food-body">
+                  <span class="food-type">Drinks</span>
+                  <h3 class="food-name">Mango Cooler</h3>
+                  <p class="food-description">Chilled mango refresher</p>
+                  <div class="food-bottom"><strong class="food-price">₹59</strong><button type="button" class="add-button" data-add="p17">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p18" data-canteen="residential" data-category="Meals" data-price="99" data-emoji="🍜">
+                <div class="food-art">🍜</div>
+                <div class="food-body">
+                  <span class="food-type">Meals</span>
+                  <h3 class="food-name">Noodles Bowl</h3>
+                  <p class="food-description">Quick noodles with vegetables</p>
+                  <div class="food-bottom"><strong class="food-price">₹99</strong><button type="button" class="add-button" data-add="p18">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p19" data-canteen="residential" data-category="Snacks" data-price="79" data-emoji="🥪">
+                <div class="food-art">🥪</div>
+                <div class="food-body">
+                  <span class="food-type">Snacks</span>
+                  <h3 class="food-name">Cheese Sandwich</h3>
+                  <p class="food-description">Toasted sandwich with cheese</p>
+                  <div class="food-bottom"><strong class="food-price">₹79</strong><button type="button" class="add-button" data-add="p19">+ Add</button></div>
+                </div>
+              </article>
+              <article class="food-card" data-id="p20" data-canteen="residential" data-category="Drinks" data-price="45" data-emoji="☕">
+                <div class="food-art">☕</div>
+                <div class="food-body">
+                  <span class="food-type">Drinks</span>
+                  <h3 class="food-name">Coffee</h3>
+                  <p class="food-description">Fresh brewed hot coffee</p>
+                  <div class="food-bottom"><strong class="food-price">₹45</strong><button type="button" class="add-button" data-add="p20">+ Add</button></div>
+                </div>
+              </article>
+            </div>
+            <div id="noFood" class="empty-card" hidden><span>🔎</span><h3>No dishes found</h3><p>Try a different canteen, category or search.</p></div>
+          </div>
+
+          <!-- Shopping cart: HTML structure, JS calculates quantities and prices -->
+          <aside class="cart-panel" id="cartPanel">
+            <div class="cart-head"><div><span class="eyebrow">YOUR FOOD TRAY</span><h3>My order <span id="cartCount" class="count-dot">0</span></h3></div><button type="button" id="clearCart" class="text-button" aria-label="Clear all items from tray">Clear tray</button></div>
+            <div id="cartEmpty" class="empty-cart"><div class="empty-illustration">🛍️</div><h4>Your tray is empty</h4><p>Add a meal to get started.</p></div>
+            <div id="cartItems" class="cart-items"></div>
+            <form id="checkoutForm" hidden>
+              <div class="cart-divider"></div>
+              <label class="field">Your name<input id="studentName" type="text" maxlength="50" required placeholder="e.g. Rahul Sharma"></label>
+              <label class="field">Pickup time
+                <select id="pickupSlot" required>
+                  <option>12:40 – 12:55</option><option>12:55 – 13:10</option><option>13:10 – 13:25</option><option>13:25 – 13:40</option><option>13:40 – 13:55</option>
+                </select>
+              </label>
+              <div class="payment-note">💳 <span><b>Pay at pickup</b><small>No online payment required</small></span></div>
+              <div class="cart-total"><span>Order total</span><b id="cartTotal">₹0</b></div>
+              <button type="submit" class="btn btn-green full">Place my order <span aria-hidden="true">→</span></button>
+              <p class="fine-print">Orders are saved in this browser only; no canteen is notified.</p>
+            </form>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PAGE 2: MY ORDERS ========== -->
+    <section id="orders" class="page inner-page container" hidden>
+      <div class="page-banner"><p class="eyebrow">YOUR ORDER HISTORY</p><h1>My <span>orders.</span></h1><p>Your saved pickup details, all in one place.</p></div>
+      <div class="notice">ℹ️ This version saves orders in your browser only. No order is sent to a canteen. Deleting a saved order simply removes it from your history.</div>
+      <div id="ordersEmpty" class="empty-state" hidden>
+        <span class="empty-state-icon" aria-hidden="true">🧾</span>
+        <h2>No saved orders yet</h2>
+        <p>Your food picks will appear here after you save an order.</p>
+        <a class="btn btn-green" href="#menu">Browse the menu →</a>
+      </div>
+      <div id="ordersList" class="order-list"></div>
+    </section>
+
+    <!-- ========== PAGE 3: FEEDBACK ========== -->
+    <section id="feedback" class="page inner-page container" hidden>
+      <div class="page-banner"><p class="eyebrow">YOUR VOICE MATTERS</p><h1>Tell us how <span>we did.</span></h1><p>Help make every campus food break better.</p></div>
+      <div class="feedback-layout">
+        <form id="feedbackForm" class="surface-card">
+          <div class="card-icon">💬</div><h2>Share your experience</h2><p class="muted">What did you think of your latest meal?</p>
+          <label class="field">Canteen<select id="feedbackCanteen">                  <option value="uni-centre">Uni-Centre</option>
+              <option value="arch-block-6">Architecture Block 6</option>
+                  <option value="blocks-25-26">Blocks 25–26</option>
+                  <option value="joy-court">Joy-Court</option>
+                  <option value="buzzz">Buzzz Food Court</option>
+                  <option value="residential">Residential Cafeteria</option></select></label>
+          <label class="field">Your rating<select id="feedbackRating"><option value="5">★★★★★ — Excellent</option><option value="4">★★★★☆ — Good</option><option value="3">★★★☆☆ — Average</option><option value="2">★★☆☆☆ — Needs work</option><option value="1">★☆☆☆☆ — Poor</option></select></label>
+          <label class="field">Your comments<textarea id="feedbackComment" maxlength="300" required rows="5" placeholder="How was the food and pickup experience?"></textarea></label>
+          <button type="submit" class="btn btn-green full">Submit feedback →</button>
+        </form>
+        <div class="surface-card feedback-side"><span class="eyebrow">CAMPUS REVIEWS</span><h2>Fresh feedback</h2><div id="feedbackEmpty" class="feedback-empty" hidden>No reviews yet — your thoughts could be the first!</div><div id="feedbackList"></div></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Reusable HTML templates for dynamic parts. No HTML string building in JavaScript. -->
+  <template id="foodTemplate"><article class="food-card"><div class="food-art"></div><div class="food-body"><span class="food-type"></span><h3 class="food-name"></h3><p class="food-description"></p><div class="food-bottom"><strong class="food-price"></strong><button type="button" class="add-button">+ Add</button></div></div></article></template>
+  <template id="cartTemplate">
+    <div class="cart-row">
+      <div class="cart-item-info"><b class="cart-item-name"></b><small class="cart-item-price"></small></div>
+      <div class="cart-actions">
+        <div class="qty-control"><button type="button" class="qty-minus" aria-label="Decrease quantity">−</button><span class="qty-number"></span><button type="button" class="qty-plus" aria-label="Increase quantity">+</button></div>
+        <button type="button" class="cart-remove" aria-label="Remove food from tray">Remove</button>
+      </div>
+    </div>
+  </template>
+  <template id="orderTemplate">
+    <article class="order-card">
+      <div class="order-top"><div><span class="eyebrow">SAVED PICKUP CODE</span><h2 class="order-code"></h2></div><span class="order-status"></span></div>
+      <p class="order-info"></p><p class="order-products"></p>
+      <div class="order-bottom"><div><span class="total-label">Total</span><strong class="order-price"></strong></div><span>Pay at pickup</span></div>
+      <div class="order-actions"><button type="button" class="order-delete">✕ &nbsp;Delete saved order</button></div>
+    </article>
+  </template>
+  <template id="feedbackTemplate"><article class="review"><span class="review-stars"></span><p class="review-comment"></p><small class="review-meta"></small></article></template>
+
+  <div role="status" aria-live="polite" id="toast" class="toast" hidden></div>
+
+
+
+  
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div><div class="brand">PRE<span>BYTE</span><span class="brand-dot">.</span></div><p>More time for your break. Less time in line.</p></div>
+      <div class="footer-links"><a href="#menu">Browse menu</a><a href="#orders">My orders</a><a href="#feedback">Feedback</a></div>
+      <small>Made for campus life ✨</small>
+    </div>
+  </footer>
+  <noscript><div class="no-script">Enable JavaScript to use the cart, ordering and feedback. The menu can be viewed without it.</div></noscript>
+</body>
+</html>
